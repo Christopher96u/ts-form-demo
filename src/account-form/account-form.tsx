@@ -1,6 +1,7 @@
 import { accountFormSchema, type AccountFormValues } from './schema';
 import { useAccountForm } from './form';
 import { Form } from '../ui/form';
+import { useNavigate } from '@tanstack/react-router';
 
 const defaultValues: AccountFormValues = {
   firstName: '',
@@ -8,6 +9,7 @@ const defaultValues: AccountFormValues = {
 };
 
 export const AccountForm = () => {
+  const navigate = useNavigate();
   const form = useAccountForm({
     defaultValues,
     canSubmitWhenInvalid: true,
@@ -16,6 +18,7 @@ export const AccountForm = () => {
     },
     onSubmit: async ({ value }) => {
       console.log('Account form success =>', value);
+      await navigate({ to: '/step-2' });
     },
     onSubmitInvalid: ({ value }) => {
       console.log('Account form invalid =>', value);
