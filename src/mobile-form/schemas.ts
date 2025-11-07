@@ -72,7 +72,7 @@ export const mobileFormSchema = Base.merge(DraftFields)
     if (values.otpStatus !== "VERIFIED") {
       ctx.addIssue({
         code: "custom",
-        path: ["otpStatus"],
+        path: ["otp"],
         message: "Verify the OTP",
       });
     }
