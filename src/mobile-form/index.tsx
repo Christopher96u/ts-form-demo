@@ -31,24 +31,14 @@ const MobileForm = () => {
   });
   return (
     <div className="relative isolate overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-8 shadow-[0_40px_120px_rgba(15,23,42,0.35)]">
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-6">
-        <div className="space-y-2">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">
-            Order summary
-          </p>
-          <h2 className="text-2xl font-semibold text-white">Create your mobile transfer request</h2>
-          <p className="text-sm text-white/70">
-            Tell us where service is active, confirm your SIM preference, and decide whether to keep or change your number.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <div className="rounded-2xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80">
-            SIM type locked to <span className="text-white">{simType}</span>
-          </div>
-          <div className="rounded-2xl border border-sky-400/40 bg-sky-400/10 px-4 py-2 text-sm font-semibold text-sky-100">
-            Schema + client validation
-          </div>
-        </div>
+      <div className="mb-8 space-y-2">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">
+          Order summary
+        </p>
+        <h2 className="text-2xl font-semibold text-white">Create your mobile transfer request</h2>
+        <p className="text-sm text-white/70">
+          Tell us where service is active, confirm your SIM preference, and decide whether to keep or change your number.
+        </p>
       </div>
       <form.AppForm>
         <Form className="space-y-8">

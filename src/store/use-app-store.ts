@@ -1,10 +1,11 @@
 import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 import type { AccountFormValues } from '../account-form/schema';
 import type { MobileFormValues } from '../mobile-form/schemas';
 
 export type AppStoreState = {
+  test: string;
   accountForm: AccountFormValues | null;
   mobileForm: MobileFormValues | null;
   setAccountForm: (payload: AccountFormValues | null) => void;
@@ -16,27 +17,44 @@ export type AppStoreState = {
 export const useAppStore = create<AppStoreState>()(
   devtools(
     immer((set) => ({
+      test: 'test',
       accountForm: null,
       mobileForm: null,
       setAccountForm: (payload) => {
-        set((state) => {
-          state.accountForm = payload;
-      });
-    },
-    resetAccountForm: () => {
-      set((state) => {
-        state.accountForm = null;
-      });
-    },
-    setMobileForm: (payload) => {
-      set((state) => {
-        state.mobileForm = payload;
-      });
-    },
+        set(
+          (state) => {
+            state.accountForm = payload;
+          },
+          false,
+          'account/setAccountForm'
+        );
+      },
+      resetAccountForm: () => {
+        set(
+          (state) => {
+            state.accountForm = null;
+          },
+          false,
+          'account/resetAccountForm'
+        );
+      },
+      setMobileForm: (payload) => {
+        set(
+          (state) => {
+            state.mobileForm = payload;
+          },
+          false,
+          'mobile/setMobileForm'
+        );
+      },
       resetMobileForm: () => {
-        set((state) => {
-          state.mobileForm = null;
-        });
+        set(
+          (state) => {
+            state.mobileForm = null;
+          },
+          false,
+          'mobile/resetMobileForm'
+        );
       },
     })),
     { name: 'app-store' }
