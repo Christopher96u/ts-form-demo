@@ -1,16 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { sectionCardClasses } from '../mobile-form/fields/styles';
+import { AccountForm } from '../account-form/account-form';
 
 const StepOne = () => (
-  <section className={`${sectionCardClasses} space-y-4`}>
+  <section className={`${sectionCardClasses} space-y-6`}>
     <div className="space-y-2">
       <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Step 1</p>
-      <h2 className="text-2xl font-semibold text-white">Account lookup & eligibility</h2>
+      <h2 className="text-2xl font-semibold text-white">Account verification</h2>
+      <p className="text-base text-white/70">
+        Start by telling us who you are. We use this information to locate your account and prepare the transfer.
+      </p>
     </div>
-    <p className="text-base text-white/80">
-      This placeholder represents the first step in the journey. In a real flow you could collect customer info,
-      fetch eligibility, or confirm consent before moving forward.
-    </p>
+    <AccountForm />
   </section>
 );
 
