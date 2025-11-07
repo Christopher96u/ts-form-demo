@@ -2,13 +2,7 @@ import { useStore } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { mobileFormOptions } from "../form-options";
 import { withMobileForm } from "./form";
-import { VALID_OTPS } from "./fields/otp";
 import { sectionCardClasses, secondaryButtonClasses } from "./fields/styles";
-
-const delay = (ms = 1500) =>
-  new Promise<void>((resolve) => {
-    setTimeout(resolve, ms);
-  });
 
 const KeepNumberSection = withMobileForm({
   ...mobileFormOptions({ simType: "ESIM" }),
@@ -20,11 +14,16 @@ const KeepNumberSection = withMobileForm({
     const sendOtpMutation = useMutation({
       mutationKey: ["send-otp"],
       mutationFn: async ({ mobileNumber: current }: { mobileNumber: string }) => {
-        await delay();
-        if (current.trim().length < 6) {
-          throw new Error("Enter your current mobile number before sending the OTP");
+        const response = await fetch('/api/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobileNumber: current }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.message ?? 'Unable to send OTP');
         }
-        return { status: 200 } as const;
+        return data;
       },
       onSuccess: () => {
         form.setFieldValue("otpStatus", "SENT");
@@ -53,11 +52,16 @@ const KeepNumberSection = withMobileForm({
     const verifyOtpMutation = useMutation({
       mutationKey: ["verify-otp"],
       mutationFn: async ({ otp }: { otp: string }) => {
-        await delay();
-        if (!VALID_OTPS.includes(otp)) {
-          throw new Error("The OTP you entered is incorrect");
+        const response = await fetch('/api/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ otp }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.message ?? 'Invalid OTP');
         }
-        return { status: 200 } as const;
+        return data;
       },
       onSuccess: () => {
         form.setFieldValue("otpStatus", "VERIFIED");
