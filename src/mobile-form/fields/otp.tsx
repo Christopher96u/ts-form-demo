@@ -1,4 +1,6 @@
-import { Field, FieldControl, FieldError, FieldLabel, useFieldContext } from "../../ui/form";
+import { useStore } from "@tanstack/react-form";
+import { Field, FieldControl, FieldError, FieldLabel, useFieldContext, useFormContext } from "../../ui/form";
+import type { MobileFormValues } from "../schemas";
 
 export const VALID_OTPS = [
   '1111',
@@ -14,7 +16,11 @@ export const VALID_OTPS = [
 
 const MobileOTPField = () => {
   const field = useFieldContext<string>();
- // If the current value of the input is present in VALID_OTPS we shoud lock the input
+  const form = useFormContext<MobileFormValues>();
+  const isLocked = useStore(
+    form.store,
+    (state) => state.values.otpStatus === 'VERIFIED'
+  );
   return (
     <Field>
      <FieldLabel>OTP *</FieldLabel>
@@ -24,7 +30,8 @@ const MobileOTPField = () => {
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="OTP"
-          className="border text-small placeholder:text-xs"
+          className="border text-small placeholder:text-xs disabled:bg-gray-100"
+          disabled={isLocked}
           />
       </FieldControl> 
       <FieldError/>

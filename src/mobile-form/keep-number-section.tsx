@@ -1,22 +1,157 @@
+import { useStore } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
 import { mobileFormOptions } from "../form-options";
 import { withMobileForm } from "./form";
+import { VALID_OTPS } from "./fields/otp";
+
+const delay = (ms = 1500) =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, ms);
+  });
 
 const KeepNumberSection = withMobileForm({
   ...mobileFormOptions({ simType: "ESIM" }),
   render: function Render({ form }) {
+    const mobileNumber = useStore(form.store, (state) => state.values.mobileNumber);
+    const otpValue = useStore(form.store, (state) => state.values.otp);
+    const otpStatus = useStore(form.store, (state) => state.values.otpStatus);
+
+    const sendOtpMutation = useMutation({
+      mutationKey: ["send-otp"],
+      mutationFn: async ({ mobileNumber: current }: { mobileNumber: string }) => {
+        await delay();
+        if (current.trim().length < 6) {
+          throw new Error("Enter your current mobile number before sending the OTP");
+        }
+        return { status: 200 } as const;
+      },
+      onSuccess: () => {
+        form.setFieldValue("otpStatus", "SENT");
+        form.setFieldValue("otp", "");
+        form.setFieldMeta("mobileNumber", (prev) => ({
+          ...prev,
+          errorMap: { ...prev.errorMap, onServer: undefined },
+          errorSourceMap: { ...prev.errorSourceMap, onServer: undefined },
+        }));
+        form.setFieldMeta("otp", (prev) => ({
+          ...prev,
+          errorMap: { ...prev.errorMap, onServer: undefined },
+          errorSourceMap: { ...prev.errorSourceMap, onServer: undefined },
+        }));
+      },
+      onError: (error: unknown) => {
+        const message = error instanceof Error ? error.message : "Unable to send OTP";
+        form.setFieldMeta("mobileNumber", (prev) => ({
+          ...prev,
+          errorMap: { ...prev.errorMap, onServer: [{ message }] },
+          errorSourceMap: { ...prev.errorSourceMap, onServer: "form" },
+        }));
+      },
+    });
+
+    const verifyOtpMutation = useMutation({
+      mutationKey: ["verify-otp"],
+      mutationFn: async ({ otp }: { otp: string }) => {
+        await delay();
+        if (!VALID_OTPS.includes(otp)) {
+          throw new Error("The OTP you entered is incorrect");
+        }
+        return { status: 200 } as const;
+      },
+      onSuccess: () => {
+        form.setFieldValue("otpStatus", "VERIFIED");
+        form.setFieldMeta("otp", (prev) => ({
+          ...prev,
+          errorMap: { ...prev.errorMap, onServer: undefined },
+          errorSourceMap: { ...prev.errorSourceMap, onServer: undefined },
+        }));
+      },
+      onError: (error: unknown) => {
+        const message = error instanceof Error ? error.message : "Invalid OTP";
+        form.setFieldMeta("otp", (prev) => ({
+          ...prev,
+          errorMap: { ...prev.errorMap, onServer: [{ message }] },
+          errorSourceMap: { ...prev.errorSourceMap, onServer: "form" },
+        }));
+      },
+    });
+
+    const handleSendOtp = () => {
+      if (otpStatus === "VERIFIED" || sendOtpMutation.isPending) {
+        return;
+      }
+      if (!mobileNumber.trim()) {
+        form.setFieldMeta("mobileNumber", (prev) => ({
+          ...prev,
+          errorMap: {
+            ...prev.errorMap,
+            onServer: [{ message: "Enter your current mobile number before sending the OTP" }],
+          },
+          errorSourceMap: { ...prev.errorSourceMap, onServer: "form" },
+        }));
+        return;
+      }
+      sendOtpMutation.mutate({ mobileNumber });
+    };
+
+    const handleVerifyOtp = () => {
+      if (otpStatus === "VERIFIED" || verifyOtpMutation.isPending) {
+        return;
+      }
+      if (otpStatus === "IDLE") {
+        form.setFieldMeta("otp", (prev) => ({
+          ...prev,
+          errorMap: {
+            ...prev.errorMap,
+            onServer: [{ message: "Send the OTP to your number before verifying" }],
+          },
+          errorSourceMap: { ...prev.errorSourceMap, onServer: "form" },
+        }));
+        return;
+      }
+      if (!otpValue.trim()) {
+        form.setFieldMeta("otp", (prev) => ({
+          ...prev,
+          errorMap: {
+            ...prev.errorMap,
+            onServer: [{ message: "Enter the code you received" }],
+          },
+          errorSourceMap: { ...prev.errorSourceMap, onServer: "form" },
+        }));
+        return;
+      }
+      verifyOtpMutation.mutate({ otp: otpValue });
+    };
+
+    const isOtpLocked = otpStatus === "VERIFIED";
+
     return (
       <section className="space-y-2">
         <div className="flex gap-2">
         <form.AppField name="mobileNumber">
           {(field) => <field.CurrentMobileNumberField />}
         </form.AppField>
-          <button type="button" className="self-end bg-blue-200 rounded px-2 py-1 cursor-pointer hover:bg-blue-300">Send OTP</button>
+          <button
+            type="button"
+            onClick={handleSendOtp}
+            disabled={isOtpLocked || sendOtpMutation.isPending}
+            className="self-end bg-blue-200 rounded px-2 py-1 cursor-pointer hover:bg-blue-300 disabled:cursor-not-allowed disabled:bg-gray-200"
+          >
+            {sendOtpMutation.isPending ? "Sending..." : "Send OTP"}
+          </button>
         </div>
         <div className="flex gap-2">
           <form.AppField name="otp">
             {(field) => <field.OTPField />}
           </form.AppField>
-          <button type="button" className="self-end bg-blue-200 rounded px-2 py-1 cursor-pointer hover:bg-blue-300">Verify</button>
+          <button
+            type="button"
+            onClick={handleVerifyOtp}
+            disabled={isOtpLocked || otpStatus !== "SENT" || verifyOtpMutation.isPending}
+            className="self-end bg-blue-200 rounded px-2 py-1 cursor-pointer hover:bg-blue-300 disabled:cursor-not-allowed disabled:bg-gray-200"
+          >
+            {verifyOtpMutation.isPending ? "Verifying..." : "Verify"}
+          </button>
         </div>
         <form.AppField
           name="planType"
