@@ -4,14 +4,17 @@ import { useMobileForm } from "./form";
 import { KeepNumberSection } from "./keep-number-section";
 import { NewNumberSection } from "./new-number-section";
 import { mobileFormSchema } from "./schemas";
+import { useSearch } from "@tanstack/react-router";
 
 // Current issues
 //1. We should display the error messages for all the states. For example: when field "keep current phone number" is not selected
 //2. onSubmit type issue
 // 3. How to handle the OTP status/flag/value? We need an input OTP and a "send" button next to it and programatically mark the field as "valid" after a 200 status from /confirm-otp API call after clicking on "send" button
 // 4.  keep-number-section component is ok? I'm using conditional rendering to display/hide the conditional field
+type SimType = 'ESIM' | 'PHYSICAL';
+
 const MobileForm = () => {
-  const simType = "ESIM" // This is defined always from search params
+  const { simType = 'ESIM' } = useSearch({ strict: false }) as { simType?: SimType };
   const formOptions = mobileFormOptions({ simType });
   const form = useMobileForm({
     canSubmitWhenInvalid: true,
