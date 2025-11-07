@@ -1,5 +1,5 @@
-import { Link, Outlet } from '@tanstack/react-router';
-import { createRootRoute } from '@tanstack/react-router';
+import { QueryClient } from '@tanstack/react-query';
+import { Link, Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 
 const RootLayout = () => (
   <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 px-4 py-12 text-white">
@@ -40,6 +40,15 @@ const RootLayout = () => (
   </div>
 );
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   component: RootLayout,
+  notFoundComponent: () => (
+    <section className="rounded-3xl border border-white/10 bg-white/5 p-8 text-white">
+      <p className="text-lg font-semibold">Route not found</p>
+      <p className="text-white/70">Please pick one of the steps above to restart the journey.</p>
+      <Link to="/" className="mt-4 inline-flex text-sky-300 underline">
+        Start over
+      </Link>
+    </section>
+  ),
 });
