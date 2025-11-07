@@ -5,6 +5,9 @@ import { KeepNumberSection } from "./keep-number-section";
 import { NewNumberSection } from "./new-number-section";
 import { mobileFormSchema } from "./schemas";
 import { useSearch } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { updateOrder } from "../api/update-order";
+import { useAppStore } from "../store";
 
 // Current issues
 //1. We should display the error messages for all the states. For example: when field "keep current phone number" is not selected
@@ -15,6 +18,11 @@ type SimType = 'ESIM' | 'PHYSICAL';
 
 const MobileForm = () => {
   const { simType = 'ESIM' } = useSearch({ strict: false }) as { simType?: SimType };
+  const { setMobileForm } = useAppStore();
+  const updateOrderMutation = useMutation({
+    mutationKey: ['update-order', 'mobile'],
+    mutationFn: updateOrder,
+  });
   const formOptions = mobileFormOptions({ simType });
   const form = useMobileForm({
     canSubmitWhenInvalid: true,
@@ -23,7 +31,8 @@ const MobileForm = () => {
       onSubmit: mobileFormSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log("form validated successfully with ==>:", value);
+      setMobileForm(value);
+      await updateOrderMutation.mutateAsync({ step: 'mobile', data: value });
     },
     onSubmitInvalid: (props) => {
       console.log("Mobile form invalid submission with ==>:", props);
@@ -102,10 +111,10 @@ const MobileForm = () => {
                 </p>
                 <button
                   type="submit"
-                  disabled={!canSubmit || isSubmitting}
+                  disabled={!canSubmit || isSubmitting || updateOrderMutation.isPending}
                   className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-sky-400 to-indigo-400 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-sky-400/30 transition hover:from-sky-300 hover:to-indigo-300 disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/50"
                 >
-                  {isSubmitting ? "Validating..." : "Submit request"}
+                  {updateOrderMutation.isPending ? "Submitting..." : isSubmitting ? "Validating..." : "Submit request"}
                 </button>
               </div>
             )}

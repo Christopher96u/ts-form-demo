@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import { VALID_OTPS } from '../mobile-form/fields/otp';
 
 const simulateDelay = (ms = 800) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -32,5 +32,14 @@ export const handlers = [
       return HttpResponse.json({ message: 'The OTP you entered is incorrect' }, { status: 400 });
     }
     return HttpResponse.json({ message: 'OTP verified successfully' });
+  }),
+  http.post('/update-order', async ({ request }) => {
+    await delay(1500);
+    const payload = await request.json().catch(() => ({}));
+    return HttpResponse.json({
+      message: 'Order updated successfully',
+      received: payload,
+      timestamp: Date.now(),
+    });
   }),
 ];
