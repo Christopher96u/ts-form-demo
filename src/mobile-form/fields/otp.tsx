@@ -3,18 +3,6 @@ import { Field, FieldControl, FieldError, FieldLabel, useFieldContext, useFormCo
 import type { MobileFormValues } from "../schemas";
 import { inputClasses } from "./styles";
 
-export const VALID_OTPS = [
-  '1111',
-  '2222',
-  '3333',
-  '4444',
-  '5555',
-  '6666',
-  '7777',
-  '8888',
-  '9999'
-]
-
 const MobileOTPField = () => {
   const field = useFieldContext<string>();
   const form = useFormContext<MobileFormValues>();
