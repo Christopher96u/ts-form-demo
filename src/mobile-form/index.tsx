@@ -114,7 +114,7 @@ const MobileForm = () => {
                   disabled={!canSubmit || isSubmitting || updateOrderMutation.isPending}
                   className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-sky-400 to-indigo-400 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-sky-400/30 transition hover:from-sky-300 hover:to-indigo-300 disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/50"
                 >
-                  {updateOrderMutation.isPending ? "Submitting..." : isSubmitting ? "Validating..." : "Submit request"}
+                  {updateOrderMutation.isPending ? "Saving..." : isSubmitting ? "Validating..." : "Next"}
                 </button>
               </div>
             )}

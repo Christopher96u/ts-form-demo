@@ -13,13 +13,13 @@ const defaultValues: AccountFormValues = {
 
 export const AccountForm = () => {
   const navigate = useNavigate();
-  const { setAccountForm } = useAppStore();
+  const { accountForm, setAccountForm } = useAppStore();
   const updateOrderMutation = useMutation({
     mutationKey: ['update-order', 'account'],
     mutationFn: updateOrder,
   });
   const form = useAccountForm({
-    defaultValues,
+    defaultValues: accountForm ?? defaultValues,
     canSubmitWhenInvalid: true,
     validators: {
       onSubmit: accountFormSchema,
