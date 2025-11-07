@@ -4,6 +4,9 @@ import type { ReactFormExtendedApi } from "@tanstack/react-form"
 import { Slot } from "@radix-ui/react-slot"
 import * as scn from "../ui/field"
 
+const cx = (...classes: Array<string | undefined>) =>
+  classes.filter(Boolean).join(" ")
+
 const {
   useFieldContext,
   useFormContext: useUntypedFormContext,
@@ -108,7 +111,7 @@ function Field({
       <scn.Field
         data-slot="form-item"
         data-invalid={hasError ? "true" : undefined}
-        className={className}
+        className={cx("space-y-2", className)}
         {...props}
       />
     </IdContext.Provider>
@@ -125,7 +128,7 @@ function FieldLabel({
       data-slot="form-label"
       data-error={hasError ? "true" : undefined}
       htmlFor={formControlId}
-      className="text-xs italic"
+      className={cx("text-sm font-semibold text-white", props.className)}
       {...props}
     />
   )
@@ -181,7 +184,7 @@ function FieldError({
     <scn.FieldError
       data-slot="form-message"
       id={formMessageId}
-      className={"text-red-400 text-xs font-bold"}
+      className={cx("text-[13px] font-medium text-rose-300", className)}
       {...props}
     >
       {body}

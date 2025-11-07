@@ -1,6 +1,7 @@
 import { useStore } from "@tanstack/react-form";
 import { Field, FieldControl, FieldError, FieldLabel, useFieldContext, useFormContext } from "../../ui/form";
 import type { MobileFormValues } from "../schemas";
+import { inputClasses } from "./styles";
 
 const MobileCurrentMobileNumberField = () => {
   const field = useFieldContext<string>();
@@ -18,7 +19,7 @@ const MobileCurrentMobileNumberField = () => {
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="Mobile number"
-          className="border text-small placeholder:text-xs disabled:bg-gray-100"
+          className={inputClasses}
           disabled={isLocked}
           />
       </FieldControl> 

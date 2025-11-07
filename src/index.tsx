@@ -5,10 +5,20 @@ import { MobileForm } from './mobile-form';
 
 export default function App() {
   return (
-    <div className="container mx-auto space-y-8">
-      <h1 className="text-center text-lg font-bold">Complex Form Example</h1>
-      <div className="border rounded-lg p-6">
-      <MobileForm/>
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 px-4 py-12 text-white">
+      <div className="mx-auto flex max-w-5xl flex-col gap-8">
+        <header className="space-y-3 text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/60">
+            Mobile onboarding
+          </p>
+          <h1 className="text-3xl font-semibold tracking-tight text-white">
+            Seamless number transfer with confidence
+          </h1>
+          <p className="text-base text-white/70">
+            Conditional flows, async verification, and schema-backed validation combined in a single responsive experience.
+          </p>
+        </header>
+        <MobileForm />
       </div>
     </div>
   );

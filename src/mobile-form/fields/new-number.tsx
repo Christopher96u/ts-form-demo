@@ -1,4 +1,5 @@
 import { Field, FieldControl, FieldError, FieldLabel, useFieldContext } from "../../ui/form";
+import { selectClasses } from "./styles";
 
 
 const HARD_CODED_NUMBERS = [
@@ -25,7 +26,7 @@ const MobileNewNumberSelectField = () => {
           value={field.state.value ?? ''}
           onChange={(event) => field.handleChange(event.target.value)}
           onBlur={field.handleBlur}
-          className="border"
+          className={selectClasses}
         >
           <option value="" disabled>
             Select a number

@@ -1,4 +1,5 @@
 import { Field, FieldControl, FieldError, FieldLabel, useFieldContext } from "../../ui/form";
+import { inputClasses } from "./styles";
 
 
 const MobileAccountNumberField = () => {
@@ -13,7 +14,7 @@ const MobileAccountNumberField = () => {
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="Account number"
-          className="border text-small placeholder:text-xs w-[300px]"
+          className={inputClasses}
           />
       </FieldControl> 
       <FieldError/>

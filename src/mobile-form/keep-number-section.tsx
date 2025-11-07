@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { mobileFormOptions } from "../form-options";
 import { withMobileForm } from "./form";
 import { VALID_OTPS } from "./fields/otp";
+import { sectionCardClasses, secondaryButtonClasses } from "./fields/styles";
 
 const delay = (ms = 1500) =>
   new Promise<void>((resolve) => {
@@ -126,7 +127,15 @@ const KeepNumberSection = withMobileForm({
     const isOtpLocked = otpStatus === "VERIFIED";
 
     return (
-      <section className="space-y-2">
+      <section className={`${sectionCardClasses} space-y-5`}>
+        <header className="space-y-1">
+          <p className="text-sm font-semibold uppercase tracking-wide text-white/60">
+            Keep your current number
+          </p>
+          <p className="text-base text-white/80">
+            We’ll verify ownership before migrating the service.
+          </p>
+        </header>
         <div className="flex gap-2">
         <form.AppField name="mobileNumber">
           {(field) => <field.CurrentMobileNumberField />}
@@ -135,7 +144,7 @@ const KeepNumberSection = withMobileForm({
             type="button"
             onClick={handleSendOtp}
             disabled={isOtpLocked || sendOtpMutation.isPending}
-            className="self-end bg-blue-200 rounded px-2 py-1 cursor-pointer hover:bg-blue-300 disabled:cursor-not-allowed disabled:bg-gray-200"
+            className={`${secondaryButtonClasses} self-end min-w-[140px] justify-center`}
           >
             {sendOtpMutation.isPending ? "Sending..." : "Send OTP"}
           </button>
@@ -148,7 +157,7 @@ const KeepNumberSection = withMobileForm({
             type="button"
             onClick={handleVerifyOtp}
             disabled={isOtpLocked || otpStatus !== "SENT" || verifyOtpMutation.isPending}
-            className="self-end bg-blue-200 rounded px-2 py-1 cursor-pointer hover:bg-blue-300 disabled:cursor-not-allowed disabled:bg-gray-200"
+            className={`${secondaryButtonClasses} self-end min-w-[140px] justify-center`}
           >
             {verifyOtpMutation.isPending ? "Verifying..." : "Verify"}
           </button>

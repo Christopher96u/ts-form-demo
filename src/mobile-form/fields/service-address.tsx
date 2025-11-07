@@ -1,4 +1,5 @@
 import { Field, FieldControl, FieldError, FieldLabel, useFieldContext } from "../../ui/form";
+import { inputClasses } from "./styles";
 
 
 const MobileServiceAddressField = () => {
@@ -13,7 +14,7 @@ const MobileServiceAddressField = () => {
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="Service address"
-          className="border text-small placeholder:text-xs w-[300px]"
+          className={inputClasses}
           />
       </FieldControl> 
       <FieldError/>

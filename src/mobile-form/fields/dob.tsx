@@ -1,4 +1,5 @@
 import { Field, FieldControl, FieldError, FieldLabel, useFieldContext } from "../../ui/form";
+import { inputClasses } from "./styles";
 
 
 const MobileDOBField = () => {
@@ -13,7 +14,7 @@ const MobileDOBField = () => {
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="Date of birth"
-          className="border text-small placeholder:text-xs"
+          className={inputClasses}
           />
       </FieldControl> 
       <FieldError/>

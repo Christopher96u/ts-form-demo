@@ -1,4 +1,5 @@
 import { Field, FieldControl, FieldError, FieldLabel, useFieldContext } from "../../ui/form";
+import { selectClasses } from "./styles";
 
 
 const PLANS = [
@@ -17,7 +18,7 @@ const MobilePlanField = () => {
           value={field.state.value ?? ''}
           onChange={(event) => field.handleChange(event.target.value)}
           onBlur={field.handleBlur}
-          className="border"
+          className={selectClasses}
         >
           <option value="" disabled>
             Select your current plan
