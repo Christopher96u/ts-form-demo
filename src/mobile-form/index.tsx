@@ -9,21 +9,16 @@ import { useMutation } from "@tanstack/react-query";
 import { updateOrder } from "../api/update-order";
 import { useAppStore } from "../store";
 
-// Current issues
-//1. We should display the error messages for all the states. For example: when field "keep current phone number" is not selected
-//2. onSubmit type issue
-// 3. How to handle the OTP status/flag/value? We need an input OTP and a "send" button next to it and programatically mark the field as "valid" after a 200 status from /confirm-otp API call after clicking on "send" button
-// 4.  keep-number-section component is ok? I'm using conditional rendering to display/hide the conditional field
 type SimType = 'ESIM' | 'PHYSICAL';
 
 const MobileForm = () => {
   const { simType = 'ESIM' } = useSearch({ strict: false }) as { simType?: SimType };
-  const { setMobileForm } = useAppStore();
+  const { mobileForm, setMobileForm } = useAppStore();
   const updateOrderMutation = useMutation({
     mutationKey: ['update-order', 'mobile'],
     mutationFn: updateOrder,
   });
-  const formOptions = mobileFormOptions({ simType });
+  const formOptions = mobileFormOptions({ simType, draft: mobileForm ?? undefined });
   const form = useMobileForm({
     canSubmitWhenInvalid: true,
     ...formOptions,
