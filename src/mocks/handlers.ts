@@ -42,4 +42,20 @@ export const handlers = [
       timestamp: Date.now(),
     });
   }),
+  http.post('/send-otp', async ({ request }) => {
+    await delay(1500);
+    const body = (await request.json().catch(() => null)) as { mobileNumber?: unknown } | null;
+    if (!body?.mobileNumber || typeof body.mobileNumber !== 'string') {
+      return HttpResponse.json({ message: 'Enter your current mobile number before sending the OTP' }, { status: 400 });
+    }
+    return HttpResponse.json({ message: 'OTP sent successfully' });
+  }),
+  http.post('/confirm-otp', async ({ request }) => {
+    await delay(1500);
+    const body = (await request.json().catch(() => null)) as { otp?: unknown } | null;
+    if (!body?.otp || typeof body.otp !== 'string' || body.otp !== '1111') {
+      return HttpResponse.json({ message: 'Invalid OTP code' }, { status: 400 });
+    }
+    return HttpResponse.json({ message: 'OTP confirmed successfully' });
+  }),
 ];

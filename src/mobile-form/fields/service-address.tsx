@@ -11,6 +11,7 @@ const MobileServiceAddressField = () => {
      <FieldControl>
         <input
           type="text"
+          value={field.state.value ?? ''}
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="Service address"

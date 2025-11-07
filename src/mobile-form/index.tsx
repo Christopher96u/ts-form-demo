@@ -4,7 +4,7 @@ import { useMobileForm } from "./form";
 import { KeepNumberSection } from "./keep-number-section";
 import { NewNumberSection } from "./new-number-section";
 import { mobileFormSchema } from "./schemas";
-import { useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { updateOrder } from "../api/update-order";
 import { useAppStore } from "../store";
@@ -14,6 +14,7 @@ type SimType = 'ESIM' | 'PHYSICAL';
 const MobileForm = () => {
   const { simType = 'ESIM' } = useSearch({ strict: false }) as { simType?: SimType };
   const { mobileForm, setMobileForm } = useAppStore();
+  const navigate = useNavigate({ from: '/step-2' });
   const updateOrderMutation = useMutation({
     mutationKey: ['update-order', 'mobile'],
     mutationFn: updateOrder,
@@ -28,6 +29,7 @@ const MobileForm = () => {
     onSubmit: async ({ value }) => {
       setMobileForm(value);
       await updateOrderMutation.mutateAsync({ step: 'mobile', data: value });
+      await navigate({ to: '/step-3' });
     },
     onSubmitInvalid: (props) => {
       console.log("Mobile form invalid submission with ==>:", props);

@@ -3,6 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import { mobileFormOptions } from "../form-options";
 import { withMobileForm } from "./form";
 import { sectionCardClasses, secondaryButtonClasses } from "./fields/styles";
+import { sendOtp } from "../api/send-otp";
+import { confirmOtp } from "../api/confirm-otp";
 
 const KeepNumberSection = withMobileForm({
   ...mobileFormOptions({ simType: "ESIM" }),
@@ -13,18 +15,7 @@ const KeepNumberSection = withMobileForm({
 
     const sendOtpMutation = useMutation({
       mutationKey: ["send-otp"],
-      mutationFn: async ({ mobileNumber: current }: { mobileNumber: string }) => {
-        const response = await fetch('/api/send-otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mobileNumber: current }),
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error(data.message ?? 'Unable to send OTP');
-        }
-        return data;
-      },
+      mutationFn: sendOtp,
       onSuccess: () => {
         form.setFieldValue("otpStatus", "SENT");
         form.setFieldValue("otp", "");
@@ -50,19 +41,8 @@ const KeepNumberSection = withMobileForm({
     });
 
     const verifyOtpMutation = useMutation({
-      mutationKey: ["verify-otp"],
-      mutationFn: async ({ otp }: { otp: string }) => {
-        const response = await fetch('/api/verify-otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ otp }),
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error(data.message ?? 'Invalid OTP');
-        }
-        return data;
-      },
+      mutationKey: ["confirm-otp"],
+      mutationFn: confirmOtp,
       onSuccess: () => {
         form.setFieldValue("otpStatus", "VERIFIED");
         form.setFieldMeta("otp", (prev) => ({
@@ -132,14 +112,15 @@ const KeepNumberSection = withMobileForm({
 
     return (
       <section className={`${sectionCardClasses} space-y-5`}>
-        <header className="space-y-1">
-          <p className="text-sm font-semibold uppercase tracking-wide text-white/60">
-            Keep your current number
-          </p>
-          <p className="text-base text-white/80">
-            We’ll verify ownership before migrating the service.
-          </p>
-        </header>
+      <header className="space-y-1">
+        <p className="text-sm font-semibold uppercase tracking-wide text-white/60">
+          Keep your current number
+        </p>
+        <p className="text-base text-white/80">
+          We’ll verify ownership before migrating the service.
+        </p>
+        <p className="text-xs text-white/60">Use OTP code <span className="font-semibold text-white">1111</span> to simulate a successful verification.</p>
+      </header>
         <div className="flex gap-2">
         <form.AppField name="mobileNumber">
           {(field) => <field.CurrentMobileNumberField />}
