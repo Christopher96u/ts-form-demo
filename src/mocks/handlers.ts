@@ -58,4 +58,9 @@ export const handlers = [
     }
     return HttpResponse.json({ message: 'OTP confirmed successfully' });
   }),
+  http.post('/available-numbers', async () => {
+    await delay(1500);
+    const numbers = Array.from({ length: 10 }, (_, idx) => `0400 000 ${String(idx + 1).padStart(3, '0')}`);
+    return HttpResponse.json({ numbers });
+  }),
 ];
