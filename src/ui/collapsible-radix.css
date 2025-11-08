@@ -1,0 +1,29 @@
+.CollapsibleContentRadix {
+  overflow: hidden;
+}
+
+.CollapsibleContentRadix[data-state='open'] {
+  animation: radix-slide-down 300ms ease forwards;
+}
+
+.CollapsibleContentRadix[data-state='closed'] {
+  animation: radix-slide-up 300ms ease forwards;
+}
+
+@keyframes radix-slide-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
+}
+
+@keyframes radix-slide-up {
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
+}

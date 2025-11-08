@@ -13,6 +13,11 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { updateOrder } from "../api/update-order";
 import { useAppStore } from "../store";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "../ui/collapsible-radix";
 
 const MobileForm = () => {
   const simType = useSearch({ from: '__root__', select: (search) => search.simType });
@@ -39,26 +44,39 @@ const MobileForm = () => {
     },
   });
   return (
-    <div className="relative isolate overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-8 shadow-[0_40px_120px_rgba(15,23,42,0.35)]">
-      <div className="mb-8 space-y-2">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">
-          Order summary
-        </p>
-        <h2 className="text-2xl font-semibold text-white">Create your mobile transfer request</h2>
-        <p className="text-sm text-white/70">
-          Tell us where service is active, confirm your SIM preference, and decide whether to keep or change your number.
-        </p>
-      </div>
-      <form.AppForm>
-        <Form className="space-y-8">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <form.AppField name="serviceAddress">
-              {(field) => <field.ServiceAddress />}
-            </form.AppField>
-            <form.AppField name="simType">
-              {(field) => <field.SimType />}
-            </form.AppField>
+    <Collapsible defaultOpen>
+      <div className="relative isolate overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-8 shadow-[0_40px_120px_rgba(15,23,42,0.35)]">
+        <CollapsibleTrigger className="mb-4 flex w-full items-center justify-between text-left">
+          <div className="space-y-1">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">
+              Order summary
+            </p>
+            <h2 className="text-2xl font-semibold text-white">Create your mobile transfer request</h2>
+            <p className="text-sm text-white/70">
+              Tell us where service is active, confirm your SIM preference, and decide whether to keep or change your
+              number.
+            </p>
           </div>
+          <svg
+            aria-hidden
+            className="h-5 w-5 shrink-0 rotate-0 text-white/70 transition-transform data-[state=open]:rotate-180"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="CollapsibleContentRadix">
+          <form.AppForm>
+            <Form className="space-y-8">
+              <div className="grid gap-6 lg:grid-cols-2">
+                <form.AppField name="serviceAddress">
+                  {(field) => <field.ServiceAddress />}
+                </form.AppField>
+                <form.AppField name="simType">
+                  {(field) => <field.SimType />}
+                </form.AppField>
+              </div>
           <form.AppField
             name="keepNumber"
             listeners={{
@@ -117,10 +135,12 @@ const MobileForm = () => {
                 </pre>
               </div>
             )}
-          </form.Subscribe>
-        </Form>
-      </form.AppForm>
-    </div>
+              </form.Subscribe>
+            </Form>
+          </form.AppForm>
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
   )
 }
 export { MobileForm };
