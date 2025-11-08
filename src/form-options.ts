@@ -1,5 +1,5 @@
 import { formOptions } from "@tanstack/react-form";
-import { MobileFormValues } from "./mobile-form/schemas";
+import { MobileFormValues, MobileFormDraft } from "./mobile-form/schemas";
 export const mobileFormOptions = ({
     simType,
     draft
@@ -7,7 +7,7 @@ export const mobileFormOptions = ({
     simType: "ESIM" | "PHYSICAL";
     // This 'draft' will come sometimes from Zustand store
     // to initialize the form after saving it
-    draft?: MobileFormValues
+    draft?: MobileFormDraft
   }) => {
     const baseValues: MobileFormValues = {
       serviceAddress: "",

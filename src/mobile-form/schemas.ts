@@ -1,5 +1,6 @@
 
 import { z } from "zod";
+import type { DeepPartial } from "../types/deep-partial";
 
 export const simTypeSchema = z.enum(["PHYSICAL", "ESIM"]);
 const planTypeSchema = z.enum(["PREPAID", "POSTPAID", ""]);
@@ -122,3 +123,4 @@ export const mobileFormSchema = DiscriminatedMobileFormSchema.superRefine(
 );
 
 export type MobileFormValues = z.input<typeof mobileFormSchema>;
+export type MobileFormDraft = DeepPartial<MobileFormValues>;

@@ -2,15 +2,15 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import type { AccountFormValues } from '../account-form/schema';
-import type { MobileFormValues } from '../mobile-form/schemas';
+import type { MobileFormDraft } from '../mobile-form/schemas';
 
 export type AppStoreState = {
   test: string;
   accountForm: AccountFormValues | null;
-  mobileForm: MobileFormValues | null;
+  mobileForm: MobileFormDraft | null;
   setAccountForm: (payload: AccountFormValues | null) => void;
   resetAccountForm: () => void;
-  setMobileForm: (payload: MobileFormValues | null) => void;
+  setMobileForm: (payload: MobileFormDraft | null) => void;
   resetMobileForm: () => void;
 };
 
