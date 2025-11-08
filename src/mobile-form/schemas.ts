@@ -20,11 +20,28 @@ const DraftFields = z.object({
   accountNumber: z.string(),
 });
 
-export const mobileFormSchema = Base.merge(DraftFields)
-  .extend({
-    keepNumber: z.enum(["UNSELECTED", "NEW-NUMBER", "KEEP-NUMBER"]),
-  })
-  .superRefine((values, ctx) => {
+const CommonSchema = Base.merge(DraftFields);
+
+const UnselectedSchema = CommonSchema.extend({
+  keepNumber: z.literal("UNSELECTED"),
+});
+
+const NewNumberSchema = CommonSchema.extend({
+  keepNumber: z.literal("NEW-NUMBER"),
+});
+
+const KeepNumberSchema = CommonSchema.extend({
+  keepNumber: z.literal("KEEP-NUMBER"),
+});
+
+const DiscriminatedMobileFormSchema = z.discriminatedUnion("keepNumber", [
+  UnselectedSchema,
+  NewNumberSchema,
+  KeepNumberSchema,
+]);
+
+export const mobileFormSchema = DiscriminatedMobileFormSchema.superRefine(
+  (values, ctx) => {
     if (values.keepNumber === "UNSELECTED") {
       ctx.addIssue({
         code: "custom",
@@ -77,14 +94,12 @@ export const mobileFormSchema = Base.merge(DraftFields)
       });
     }
 
-    if (values.planType === "PREPAID") {
-      if (values.dob.trim().length < 2) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["dob"],
-          message: "Date of birth is required",
-        });
-      }
+    if (values.planType === "PREPAID" && values.dob.trim().length < 2) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["dob"],
+        message: "Date of birth is required",
+      });
     }
 
     if (values.planType === "POSTPAID" && values.accountNumber.trim().length < 2) {
@@ -94,6 +109,7 @@ export const mobileFormSchema = Base.merge(DraftFields)
         message: "Account number is required",
       });
     }
-  });
+  }
+);
 
 export type MobileFormValues = z.input<typeof mobileFormSchema>;
