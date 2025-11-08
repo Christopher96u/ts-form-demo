@@ -4,6 +4,11 @@ import { useMobileForm } from "./form";
 import { KeepNumberSection } from "./keep-number-section";
 import { NewNumberSection } from "./new-number-section";
 import { mobileFormSchema } from "./schemas";
+import {
+  resetMobileKeepSelection,
+  resetMobileNewSelection,
+  resetMobileUnselectedState,
+} from "./helpers";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { updateOrder } from "../api/update-order";
@@ -60,27 +65,16 @@ const MobileForm = () => {
               onChange: ({ value, fieldApi }) => {
                 const formApi = fieldApi.form;
                 if (value === 'KEEP-NUMBER') {
-                  formApi.resetField('newMobileNumber');
+                  resetMobileKeepSelection(formApi);
                   return;
                 }
 
                 if (value === 'NEW-NUMBER') {
-                  formApi.resetField('planType');
-                  formApi.resetField('mobileNumber');
-                  formApi.resetField('otp');
-                  formApi.resetField('otpStatus');
-                  formApi.resetField('dob');
-                  formApi.resetField('accountNumber');
+                  resetMobileNewSelection(formApi);
                   return;
                 }
 
-                formApi.resetField('newMobileNumber');
-                formApi.resetField('planType');
-                formApi.resetField('mobileNumber');
-                formApi.resetField('otp');
-                formApi.resetField('otpStatus');
-                formApi.resetField('dob');
-                formApi.resetField('accountNumber');
+                resetMobileUnselectedState(formApi);
               },
             }}
           >

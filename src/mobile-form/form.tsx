@@ -27,3 +27,5 @@ export const { useAppForm: useMobileForm, withForm: withMobileForm } = createFor
   },
   formComponents: {},
 });
+
+export type MobileFormApi = ReturnType<typeof useMobileForm>;
