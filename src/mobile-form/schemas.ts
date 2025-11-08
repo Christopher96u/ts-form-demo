@@ -5,6 +5,11 @@ export const simTypeSchema = z.enum(["PHYSICAL", "ESIM"]);
 const planTypeSchema = z.enum(["PREPAID", "POSTPAID", ""]);
 const otpStatusSchema = z.enum(["IDLE", "SENT", "VERIFIED"]);
 
+const ACCOUNT_NUMBER_REGEX = /^\d{4}$/;
+const DOB_REGEX = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+const OTP_REGEX = /^\d{4}$/;
+const MOBILE_NUMBER_REGEX = /^04\d{8}$/;
+
 const Base = z.object({
   serviceAddress: z.string().min(2, "Service address is required"),
   simType: simTypeSchema,
@@ -52,7 +57,7 @@ export const mobileFormSchema = DiscriminatedMobileFormSchema.superRefine(
     }
 
     if (values.keepNumber === "NEW-NUMBER") {
-      if (values.newMobileNumber.trim().length < 2) {
+      if (!values.newMobileNumber) {
         ctx.addIssue({
           code: "custom",
           path: ["newMobileNumber"],
@@ -70,19 +75,19 @@ export const mobileFormSchema = DiscriminatedMobileFormSchema.superRefine(
       });
     }
 
-    if (values.mobileNumber.trim().length < 2) {
+    if (!MOBILE_NUMBER_REGEX.test(values.mobileNumber)) {
       ctx.addIssue({
         code: "custom",
         path: ["mobileNumber"],
-        message: "Your current mobile number is required",
+        message: "Mobile number should start with 04",
       });
     }
 
-    if (values.otp.trim().length < 4) {
+    if (!OTP_REGEX.test(values.otp)) {
       ctx.addIssue({
         code: "custom",
         path: ["otp"],
-        message: "OTP is required",
+        message: "OTP must be 4 digits",
       });
     }
 
@@ -94,20 +99,24 @@ export const mobileFormSchema = DiscriminatedMobileFormSchema.superRefine(
       });
     }
 
-    if (values.planType === "PREPAID" && values.dob.trim().length < 2) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["dob"],
-        message: "Date of birth is required",
-      });
+    if (values.planType === "PREPAID") {
+      if (!DOB_REGEX.test(values.dob)) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["dob"],
+          message: "Date of birth must be in DD/MM/YYYY format",
+        });
+      }
     }
 
-    if (values.planType === "POSTPAID" && values.accountNumber.trim().length < 2) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["accountNumber"],
-        message: "Account number is required",
-      });
+    if (values.planType === "POSTPAID") {
+      if (!ACCOUNT_NUMBER_REGEX.test(values.accountNumber)) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["accountNumber"],
+          message: "Account number must be 4 digits",
+        });
+      }
     }
   }
 );
