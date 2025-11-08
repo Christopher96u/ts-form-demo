@@ -1,23 +1,23 @@
 import { Field, FieldControl, FieldError, FieldLabel, useFieldContext } from "../../ui/form";
 import { selectClasses } from "./styles";
+import type { MobileFormValues } from "../schemas";
 
 
-const PLANS = [
-  'PREPAID',
-  'POSTPAID',
-];
+const PLANS: MobileFormValues['planType'][] = ['PREPAID', 'POSTPAID'];
 
 const MobilePlanField = () => {
-  const field = useFieldContext<string>();
+  const field = useFieldContext<MobileFormValues['planType']>();
 
   return (
     <Field>
       <FieldLabel>Choose your current plan *</FieldLabel>
       <FieldControl>
         <select
-          value={field.state.value}
+          value={field.state.value ?? ''}
           name={field.name}
-          onChange={(event) => field.handleChange(event.target.value)}
+          onChange={(event) =>
+            field.handleChange(event.target.value as MobileFormValues['planType'])
+          }
           onBlur={field.handleBlur}
           className={selectClasses}
         >

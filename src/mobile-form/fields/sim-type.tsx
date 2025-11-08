@@ -1,10 +1,11 @@
 import { Field, FieldControl, FieldError, FieldLabel, useFieldContext } from "../../ui/form";
 import { pillOptionBase } from "./styles";
+import type { MobileFormValues } from "../schemas";
 
 
 
 const MobileSimTypeField = () => {
-  const field = useFieldContext<string>();
+  const field = useFieldContext<MobileFormValues['simType']>();
 
   return (
     <Field>
@@ -22,7 +23,7 @@ const MobileSimTypeField = () => {
                 type="radio"
                 name={field.name}
                 checked={field.state.value === option}
-                onChange={() => field.handleChange(option)}
+                onChange={() => field.handleChange(option as MobileFormValues['simType'])}
                 onBlur={field.handleBlur}
                 className="h-4 w-4 accent-sky-400"
               />
