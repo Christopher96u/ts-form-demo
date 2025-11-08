@@ -20,7 +20,8 @@ const MobileNewNumberSelectField = () => {
           <p className="text-sm text-rose-300">Unable to load numbers, please try again later.</p>
         ) : (
           <select
-            value={field.state.value ?? ''}
+            name={field.name}
+            value={field.state.value}
             onChange={(event) => field.handleChange(event.target.value)}
             onBlur={field.handleBlur}
             className={selectClasses}

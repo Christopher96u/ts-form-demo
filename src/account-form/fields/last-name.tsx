@@ -10,10 +10,11 @@ const AccountLastNameField = () => {
       <FieldControl>
         <input
           type="text"
+          name={field.name}
           placeholder="e.g. Gonzalez"
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
-          value={field.state.value ?? ''}
+          value={field.state.value}
           className={inputClasses}
         />
       </FieldControl>
