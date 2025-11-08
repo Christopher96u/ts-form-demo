@@ -7,7 +7,7 @@ import {
 } from '../ui/collapsible-radix';
 
 const StepThree = () => (
-  <section className="space-y-4">
+  <section className="space-y-4 min-h-[70vh]">
     <Link
       to="/step-2"
       className="inline-flex items-center text-sm font-semibold text-white/70 transition hover:text-white"

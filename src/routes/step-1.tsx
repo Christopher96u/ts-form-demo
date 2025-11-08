@@ -3,7 +3,7 @@ import { sectionCardClasses } from '../mobile-form/fields/styles';
 import { AccountForm } from '../account-form/account-form';
 
 const StepOne = () => (
-  <section className={`${sectionCardClasses} space-y-6`}>
+  <section className={`${sectionCardClasses} space-y-6 min-h-[70vh]`}>
     <div className="space-y-2">
       <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Step 1</p>
       <h2 className="text-2xl font-semibold text-white">Account verification</h2>
