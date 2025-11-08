@@ -14,7 +14,7 @@ export const mobileFormOptions = ({
       simType,
       keepNumber: "UNSELECTED",
       newMobileNumber: "",
-      planType: undefined,
+      planType: "",
       mobileNumber: "",
       otp: "",
       otpStatus: "IDLE",

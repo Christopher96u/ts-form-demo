@@ -2,7 +2,7 @@
 import { z } from "zod";
 
 export const simTypeSchema = z.enum(["PHYSICAL", "ESIM"]);
-const planTypeSchema = z.enum(["PREPAID", "POSTPAID"]);
+const planTypeSchema = z.enum(["PREPAID", "POSTPAID", ""]);
 const otpStatusSchema = z.enum(["IDLE", "SENT", "VERIFIED"]);
 
 const Base = z.object({
