@@ -4,7 +4,7 @@ import { inputClasses } from "./styles";
 
 const MobileAccountNumberField = () => {
   const field = useFieldContext<string>();
-//form.resetField('accountNumber');
+
   return (
     <Field>
      <FieldLabel>Account number *</FieldLabel>

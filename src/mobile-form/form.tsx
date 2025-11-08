@@ -10,7 +10,7 @@ import { MobileCurrentMobileNumberField } from "./fields/current-mobile-number";
 import { MobileOTPField } from "./fields/otp";
 import { MobileAccountNumberField } from "./fields/account-number";
 
-// This hook is only for "mobile form", I will have another hook for internet form, and other big forms.
+// This hook is only for "mobile form"
 export const { useAppForm: useMobileForm, withForm: withMobileForm } = createFormHook({
   fieldContext,
   formContext,

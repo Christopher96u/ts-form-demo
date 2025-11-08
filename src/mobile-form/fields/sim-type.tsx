@@ -4,7 +4,7 @@ import { pillOptionBase } from "./styles";
 
 
 const MobileSimTypeField = () => {
-  const field = useFieldContext<string | undefined>();
+  const field = useFieldContext<string>();
 
   return (
     <Field>

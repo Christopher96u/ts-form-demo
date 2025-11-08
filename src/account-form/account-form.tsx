@@ -50,7 +50,7 @@ export const AccountForm = () => {
             <button
               type="submit"
               disabled={!canSubmit || isSubmitting || updateOrderMutation.isPending}
-              className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-400 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-400/30 transition hover:from-emerald-300 hover:to-teal-300 disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/50"
+              className="inline-flex items-center justify-center cursor-pointer rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-400 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-400/30 transition hover:from-emerald-300 hover:to-teal-300 disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/50"
             >
               {updateOrderMutation.isPending ? 'Saving...' : isSubmitting ? 'Validating...' : 'Next'}
             </button>

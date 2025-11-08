@@ -8,7 +8,7 @@ const MobileNewNumberSelectField = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['available-numbers'],
     queryFn: fetchAvailableNumbers,
-    staleTime: Infinity,
+    staleTime: 'static',
   });
   const numbers = data?.numbers ?? [];
 

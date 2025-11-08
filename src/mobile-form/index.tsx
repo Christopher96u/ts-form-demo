@@ -9,10 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import { updateOrder } from "../api/update-order";
 import { useAppStore } from "../store";
 
-type SimType = 'ESIM' | 'PHYSICAL';
-
 const MobileForm = () => {
-  const { simType = 'ESIM' } = useSearch({ strict: false }) as { simType?: SimType };
+  const simType = useSearch({ from: '__root__', select: (search) => search.simType });
   const { mobileForm, setMobileForm } = useAppStore();
   const navigate = useNavigate({ from: '/step-2' });
   const updateOrderMutation = useMutation({
@@ -109,7 +107,7 @@ const MobileForm = () => {
                 <button
                   type="submit"
                   disabled={!canSubmit || isSubmitting || updateOrderMutation.isPending}
-                  className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-sky-400 to-indigo-400 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-sky-400/30 transition hover:from-sky-300 hover:to-indigo-300 disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/50"
+                  className="inline-flex items-center justify-center cursor-pointer rounded-2xl bg-gradient-to-r from-sky-400 to-indigo-400 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-sky-400/30 transition hover:from-sky-300 hover:to-indigo-300 disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/50"
                 >
                   {updateOrderMutation.isPending ? "Saving..." : isSubmitting ? "Validating..." : "Next"}
                 </button>
