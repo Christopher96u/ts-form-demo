@@ -15,7 +15,8 @@ const MobilePlanField = () => {
       <FieldLabel>Choose your current plan *</FieldLabel>
       <FieldControl>
         <select
-          value={field.state.value ?? ''}
+          value={field.state.value}
+          name={field.name}
           onChange={(event) => field.handleChange(event.target.value)}
           onBlur={field.handleBlur}
           className={selectClasses}

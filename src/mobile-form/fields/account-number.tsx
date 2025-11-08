@@ -11,11 +11,13 @@ const MobileAccountNumberField = () => {
      <FieldControl>
         <input
           type="text"
+          name={field.name}
+          value={field.state.value}
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="Account number"
           className={inputClasses}
-          />
+        />
       </FieldControl> 
       <FieldError/>
     </Field>

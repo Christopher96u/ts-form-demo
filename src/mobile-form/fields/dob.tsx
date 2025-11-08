@@ -11,11 +11,13 @@ const MobileDOBField = () => {
      <FieldControl>
         <input
           type="text"
+          name={field.name}
+          value={field.state.value}
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="Date of birth"
           className={inputClasses}
-          />
+        />
       </FieldControl> 
       <FieldError/>
     </Field>

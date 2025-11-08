@@ -16,6 +16,8 @@ const MobileCurrentMobileNumberField = () => {
      <FieldControl>
         <input
           type="text"
+          name={field.name}
+          value={field.state.value}
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="Mobile number"

@@ -16,6 +16,8 @@ const MobileOTPField = () => {
      <FieldControl>
         <input
           type="text"
+          name={field.name}
+          value={field.state.value}
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           placeholder="OTP"
