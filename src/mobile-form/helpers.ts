@@ -17,6 +17,10 @@ const MOBILE_NEW_NUMBER_FIELDS: Array<keyof Pick<MobileFormValues, 'newMobileNum
 const MOBILE_PREPAID_FIELDS: Array<keyof Pick<MobileFormValues, 'dob'>> = ['dob'];
 const MOBILE_POSTPAID_FIELDS: Array<keyof Pick<MobileFormValues, 'accountNumber'>> = ['accountNumber'];
 
+/**
+ * Resets a list of flat scalar fields. These helpers assume primitives only
+ * (no nested objects/arrays) which matches our current use cases.
+ */
 const resetFields = (
   form: MobileFormInteractions,
   fields: ReadonlyArray<keyof MobileFormValues>,
