@@ -3,7 +3,7 @@ import type { MobileFormApi } from "./form";
 
 type MobileFormInteractions = Pick<MobileFormApi, "resetField" | "setFieldMeta">;
 
-const MOBILE_KEEP_NUMBER_FIELDS: Array<keyof Pick<MobileFormValues, 'planType' | 'mobileNumber' | 'otp' | 'otpStatus' | 'dob' | 'accountNumber'>> = [
+const MOBILE_KEEP_NUMBER_FIELDS: Array<keyof MobileFormValues> = [
   'planType',
   'mobileNumber',
   'otp',
@@ -12,10 +12,10 @@ const MOBILE_KEEP_NUMBER_FIELDS: Array<keyof Pick<MobileFormValues, 'planType' |
   'accountNumber',
 ];
 
-const MOBILE_NEW_NUMBER_FIELDS: Array<keyof Pick<MobileFormValues, 'newMobileNumber'>> = ['newMobileNumber'];
+const MOBILE_NEW_NUMBER_FIELDS: Array<keyof MobileFormValues> = ['newMobileNumber'];
 
-const MOBILE_PREPAID_FIELDS: Array<keyof Pick<MobileFormValues, 'dob'>> = ['dob'];
-const MOBILE_POSTPAID_FIELDS: Array<keyof Pick<MobileFormValues, 'accountNumber'>> = ['accountNumber'];
+const MOBILE_PREPAID_FIELDS: Array<keyof MobileFormValues> = ['dob'];
+const MOBILE_POSTPAID_FIELDS: Array<keyof MobileFormValues> = ['accountNumber'];
 
 /**
  * Resets a list of flat scalar fields. These helpers assume primitives only

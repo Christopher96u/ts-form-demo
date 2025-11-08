@@ -22,9 +22,18 @@ export const mobileFormOptions = ({
       accountNumber: "",
     };
 
-    const defaultValues: MobileFormValues = draft
-      ? { ...baseValues, ...draft }
-      : baseValues;
+    const mergeWithDraft = (partial?: MobileFormDraft): MobileFormValues => {
+      if (!partial) {
+        return baseValues;
+      }
+
+      return {
+        ...baseValues,
+        ...partial,
+      } as MobileFormValues;
+    };
+
+    const defaultValues = mergeWithDraft(draft);
 
     return formOptions({
       defaultValues,
