@@ -1,9 +1,9 @@
 import { mobileFormOptions } from "../form-options";
-import { withMobileForm } from "./form";
+import { withAppForm } from "../hooks/form-hook";
 import { sectionCardClasses } from "./fields/styles";
 
 
-const NewNumberSection = withMobileForm({
+const NewNumberSection = withAppForm({
   ...mobileFormOptions({ simType: "ESIM" }),
   render: function Render({ form }) {
     return (

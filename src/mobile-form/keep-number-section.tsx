@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { mobileFormOptions } from "../form-options";
-import { withMobileForm } from "./form";
+import { withAppForm } from "../hooks/form-hook";
 import { sectionCardClasses, secondaryButtonClasses } from "./fields/styles";
 import { sendOtp } from "../api/send-otp";
 import { confirmOtp } from "../api/confirm-otp";
 import { resetMobilePlanExclusiveFields } from "./helpers";
 import { clearServerError, setServerError } from "../ui/ts-form-helpers";
 
-const KeepNumberSection = withMobileForm({
+const KeepNumberSection = withAppForm({
   ...mobileFormOptions({ simType: "ESIM" }),
   render: function Render({ form }) {
     const sendOtpMutation = useMutation({

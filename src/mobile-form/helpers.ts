@@ -1,7 +1,7 @@
 import type { MobileFormValues } from "./schemas";
-import type { MobileFormApi } from "./form";
+import type { AppFormApi } from "../hooks/form-hook";
 
-type MobileFormInteractions = Pick<MobileFormApi, "resetField" | "setFieldMeta">;
+type MobileFormInteractions = Pick<AppFormApi, "resetField" | "setFieldMeta">;
 
 const MOBILE_KEEP_NUMBER_FIELDS: Array<keyof MobileFormValues> = [
   'planType',

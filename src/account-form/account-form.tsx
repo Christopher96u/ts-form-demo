@@ -1,5 +1,5 @@
 import { accountFormSchema, type AccountFormValues } from './schema';
-import { useAccountForm } from './form';
+import { useAppForm } from '../hooks/form-hook';
 import { Form } from '../ui/form';
 import { useNavigate } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
@@ -23,7 +23,7 @@ export const AccountForm = () => {
     mutationKey: ['update-order', 'account'],
     mutationFn: updateOrder,
   });
-  const form = useAccountForm({
+  const form = useAppForm({
     defaultValues: accountForm ?? defaultValues,
     canSubmitWhenInvalid: true,
     validators: {
